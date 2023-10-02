@@ -12,10 +12,10 @@ export function extractAttendCodes(timetable: Timetable) {
     todayTimetable.items.map((
       { activityDescription, startTime, endTime, attCode },
     ) => [
-      activityDescription,
       attCode
         ? `${startTime} - ${endTime} | ${attCode}`
         : `${startTime} - ${endTime}`,
+      activityDescription,
     ]),
   );
 }
