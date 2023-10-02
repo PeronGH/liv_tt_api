@@ -8,19 +8,16 @@ export function extractAttendCodes(timetable: Timetable) {
     return {};
   }
 
-  const attCodes = todayTimetable.items.map((
-    { activityDescription, startTime, endTime, attCode },
-  ) => [
-    attCode
-      ? `${startTime} - ${endTime} | ${attCode}`
-      : `${startTime} - ${endTime}`,
-    activityDescription,
-  ]);
+  const attCodes = Object.fromEntries(
+    todayTimetable.items.map((
+      { activityDescription, startTime, endTime, attCode },
+    ) => [
+      attCode
+        ? `${startTime} - ${endTime} | ${attCode}`
+        : `${startTime} - ${endTime}`,
+      activityDescription,
+    ]),
+  );
 
-  const attCodesObj: Record<string, string> = {};
-  for (const [key, value] of attCodes) {
-    attCodesObj[key] = value;
-  }
-
-  return attCodesObj;
+  return attCodes;
 }
