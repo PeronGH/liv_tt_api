@@ -16,6 +16,6 @@ export function extractAttendCodes(timetable: Timetable) {
         ? `${startTime} - ${endTime} | ${attCode}`
         : `${startTime} - ${endTime}`,
       activityDescription,
-    ]),
+    ]).toSorted((a, b) => a[0].localeCompare(b[0])),
   );
 }
