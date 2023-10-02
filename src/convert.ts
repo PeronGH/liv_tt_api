@@ -14,7 +14,7 @@ export function extractAttendCodes(timetable: Timetable) {
     ) => [
       activityDescription,
       attCode
-        ? `${startTime} - ${endTime} -> ${attCode}`
+        ? `${startTime} - ${endTime} | ${attCode}`
         : `${startTime} - ${endTime}`,
     ]),
   );
