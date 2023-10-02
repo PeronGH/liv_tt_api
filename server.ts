@@ -4,7 +4,7 @@ import { extractAttendCodes, getTimetable } from "./mod.ts";
 const app = new Hono();
 
 app.get("/timetable", async (ctx) => {
-  const username = ctx.req.header("username");
+  const username = ctx.req.header("x-username");
   const clientId = ctx.req.header("x-client-id");
 
   if (!username || !clientId) {
@@ -15,3 +15,5 @@ app.get("/timetable", async (ctx) => {
 
   return ctx.json(extractAttendCodes(timetable));
 });
+
+Deno.serve(app.fetch);
