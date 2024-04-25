@@ -1,19 +1,26 @@
-import { Hono } from "https://deno.land/x/hono@v3.7.3/mod.ts";
+import { get, route, routes, verbs } from "jsr:@pixel/funweb@0.8.2";
 import { extractAttendCodes, getTimetable } from "./mod.ts";
 
-const app = new Hono();
+const handler = routes(
+  route(
+    "/attcodes",
+    verbs(
+      get(async (req) => {
+        const username = req.headers.get("x-username");
+        const clientId = req.headers.get("x-client-id");
 
-app.get("/attcodes", async (ctx) => {
-  const username = ctx.req.header("x-username");
-  const clientId = ctx.req.header("x-client-id");
+        if (!username || !clientId) {
+          return new Response("Missing username or client ID", {
+            status: 400,
+          });
+        }
 
-  if (!username || !clientId) {
-    return ctx.text("Missing username or client ID", 400);
-  }
+        const timetable = await getTimetable(username, clientId);
 
-  const timetable = await getTimetable(username, clientId);
+        return Response.json(extractAttendCodes(timetable));
+      }),
+    ),
+  ),
+);
 
-  return ctx.json(extractAttendCodes(timetable));
-});
-
-Deno.serve(app.fetch);
+Deno.serve(handler);
