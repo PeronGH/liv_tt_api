@@ -23,4 +23,4 @@ const handler = routes(
   ),
 );
 
-Deno.serve(handler);
+Deno.serve({ port: parseInt(Deno.env.get("PORT") || "8000") }, handler);
